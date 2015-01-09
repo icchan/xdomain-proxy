@@ -13,9 +13,9 @@ import (
 func main() {
 	// command line args
 	listenHost := flag.String("listen", ":1337", "host and port to listen on")
-	rootPath := flag.String("root", "/", "relative path for apis")
+	rootPath := flag.String("root", "/", "relative path for static files")
 	apiPath := flag.String("api", "/api", "relative path for apis")
-	apiServer := flag.String("server", "", "remote path for apis")
+	apiServer := flag.String("server", "", "remote server for apis")
 	flag.Parse()
 
 	// Host files in the current folder
