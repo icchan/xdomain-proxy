@@ -29,12 +29,15 @@ func main() {
 	fsWeb := http.FileServer(http.Dir(pwd))
 	http.Handle(*rootPath, http.StripPrefix(*rootPath, fsWeb))
 
-	// proxy the api requests
-	backendUrl, _ := url.Parse(*apiServer)
-	http.Handle(*apiPath, httputil.NewSingleHostReverseProxy(backendUrl))
-
 	// fire up the server
 	log.Printf("Hosting current path as %s on %s ", *rootPath, *listenHost)
-	log.Printf("  and forwarding %s to %s", *apiPath, *apiServer)
+
+	// proxy the api requests
+	if *apiServer != "" {
+		backendUrl, _ := url.Parse(*apiServer)
+		http.Handle(*apiPath, httputil.NewSingleHostReverseProxy(backendUrl))
+		log.Printf("  and forwarding %s to %s", *apiPath, *apiServer)
+	}
+
 	http.ListenAndServe(*listenHost, nil)
 }
